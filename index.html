@@ -4,11 +4,12 @@
   <meta charset="utf-8" />
   <title>Food Wheel</title>
   <!-- Wheel libraries -->
-  <!-- Animation helper -->
+<!-- 1️⃣  Animation helper (GSAP) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
 
-<!-- Spin-wheel engine (hosted by jsDelivr, version 2.8.0) -->
+<!-- 2️⃣  Spin-wheel engine (Winwheel 2.8.0, GitHub build) -->
 <script src="https://cdn.jsdelivr.net/gh/zarocknz/javascript-winwheel@2.8.0/Winwheel.min.js"></script>
+
 
   <style>
     body{font-family:sans-serif;text-align:center;margin:40px}
@@ -37,12 +38,33 @@ const data = {
 };
 
 let theWheel;
-  const segmentColors = ['#ff7675','#74b9ff','#ffeaa7','#55efc4',
-                       '#fd79a8','#a29bfe','#fab1a0','#81ecec'];
-  segments: data[tier].map((label, i) => ({
-  text: label,
-  fillStyle: segmentColors[i % segmentColors.length]
-})),
+  const segmentColors = [
+  '#ff7675','#74b9ff','#ffeaa7','#55efc4',
+  '#fd79a8','#a29bfe','#fab1a0','#81ecec'
+];
+
+function makeWheel(tier){
+  if (theWheel) theWheel.stopAnimation(false);
+
+  theWheel = new Winwheel({
+    canvasId: 'canvas',
+    numSegments: data[tier].length,
+    segments: data[tier].map((label, i) => ({
+      text: label,
+      fillStyle: segmentColors[i % segmentColors.length]   // 👈 NEW
+    })),
+    animation: {
+      type: 'spinToStop',
+      spins: 5,
+      callbackFinished: seg =>
+        document.getElementById('result').textContent =
+          '🎉 You got: ' + seg.text
+    }
+  });
+
+  theWheel.draw();   // draws immediately
+}
+
 makeWheel('cheap'); // show first wheel on load
 
 document.getElementById('menuSelect').addEventListener('change', e => {
