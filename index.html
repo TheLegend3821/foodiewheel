@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Food Wheel</title>
+  <!-- Wheel libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/winwheel@1.0.1/build/Winwheel.min.js"></script>
+  <style>
+    body{font-family:sans-serif;text-align:center;margin:40px}
+    #menuSelect{margin-bottom:10px;font-size:1rem}
+  </style>
+</head>
+<body>
+  <h2>Spin the Food Wheel</h2>
+
+  <select id="menuSelect">
+    <option value="cheap">Cheap</option>
+    <option value="expensive">Expensive</option>
+    <option value="premium">Premium</option>
+  </select>
+
+  <canvas id="canvas" width="450" height="450"></canvas><br>
+  <button onclick="theWheel.startAnimation();">Spin!</button>
+
+  <p id="result"></p>
+
+<script>
+const data = {
+  cheap:     ['banh mi','economic rice','chicken rice','mcd'],
+  expensive: ['ramen','poke bowl','gourmet burger'],
+  premium:   ['omakase','dry-aged steak','lobster roll']
+};
+
+let theWheel;
+makeWheel('cheap'); // show first wheel on load
+
+document.getElementById('menuSelect').addEventListener('change', e => {
+  makeWheel(e.target.value);
+});
+
+function makeWheel(tier){
+  if (theWheel)       // stop & kill any previous wheel
+    theWheel.stopAnimation(false);
+
+  theWheel = new Winwheel({
+    canvasId: 'canvas',
+    numSegments: data[tier].length,
+    segments: data[tier].map(label => ({ text: label })),
+    animation: {
+      type: 'spinToStop',
+      spins: 5,
+      callbackFinished: seg =>
+        document.getElementById('result').textContent = '🎉 You got: ' + seg.text
+    }
+  });
+}
+</script>
+</body>
+</html>
