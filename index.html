@@ -37,6 +37,12 @@ const data = {
 };
 
 let theWheel;
+  const segmentColors = ['#ff7675','#74b9ff','#ffeaa7','#55efc4',
+                       '#fd79a8','#a29bfe','#fab1a0','#81ecec'];
+  segments: data[tier].map((label, i) => ({
+  text: label,
+  fillStyle: segmentColors[i % segmentColors.length]
+})),
 makeWheel('cheap'); // show first wheel on load
 
 document.getElementById('menuSelect').addEventListener('change', e => {
