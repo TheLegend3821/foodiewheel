@@ -33,19 +33,25 @@
   </style>
 </head>
 <body>
-  <h2>Spin the Food Wheel</h2>
+  <h2>Spin the Foodieee Wheel</h2>
 
-<div id="contentWrap">          <!-- 🆕 open wrapper -->
-  <select id="menuSelect"> … </select>
+  <div id="contentWrap">                 <!-- wrapper adds the vertical gap -->
+    <select id="menuSelect">
+      <option value="cheap">Cheap</option>
+      <option value="expensive">Expensive</option>
+      <option value="premium">Premium</option>
+    </select>
 
-  <div id="wheelWrap" style="position:relative; display:inline-block;">
-    <div id="pointer"></div>
-    <canvas id="canvas" width="450" height="450"></canvas>
-  </div><br>
+    <div id="wheelWrap" style="position:relative; display:inline-block;">
+      <div id="pointer"></div>
+      <canvas id="canvas" width="450" height="450"></canvas>
+    </div><br>
 
-  <button onclick="theWheel.startAnimation();">Spin!</button>
-  <p id="result"></p>
-</div>                           <!-- 🆕 close wrapper -->
+    <button onclick="theWheel.startAnimation();">Spin!</button>
+    <p id="result"></p>
+  </div>  <!-- /contentWrap -->
+</body>
+   <!-- 🆕 close wrapper -->
 
 
   <select id="menuSelect">
