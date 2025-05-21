@@ -12,17 +12,18 @@
   <style>
     body{font-family:sans-serif;text-align:center;margin:40px}
     #menuSelect{margin-bottom:10px;font-size:1rem}
-     /* ▼ NEW ▼ */
-  #pointer{
-    position:absolute;
-    top:-24px;
-    left:50%;
-    transform:translateX(-50%);
-    width:0; height:0;
-    border-left:18px solid transparent;
-    border-right:18px solid transparent;
-    border-bottom:28px solid #e74c3c;
-  }
+     /* fixed, downward-facing triangle */
+#pointer{
+  position:absolute;
+  top:-26px;                /* just above the canvas rim */
+  left:50%;
+  transform:translateX(-50%);
+  width:0; height:0;
+  border-left:18px solid transparent;
+  border-right:18px solid transparent;
+  border-bottom:28px solid #e74c3c;   /* arrow colour */
+  z-index:10;               /* ensures it sits on top of the canvas */
+}
   </style>
 </head>
 <body>
@@ -34,10 +35,14 @@
     <option value="premium">Premium</option>
   </select>
 
-  <canvas id="canvas" width="450" height="450"></canvas><br>
-  <button onclick="theWheel.startAnimation();">Spin!</button>
+<div id="wheelWrap" style="position:relative; display:inline-block;">
+  <div id="pointer"></div>      <!-- 🆕 fixed arrow -->
+  <canvas id="canvas" width="450" height="450"></canvas>
+</div><br>
 
-  <p id="result"></p>
+<button onclick="theWheel.startAnimation();">Spin!</button>
+<p id="result"></p>
+
 
 <script>
 const data = {
