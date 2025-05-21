@@ -5,37 +5,45 @@
   <title>Foodieee Wheel</title>
 
   <!-- Libraries -->
-  <!-- NEW – TweenMax 2.1.3 (fully compatible with Winwheel) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/zarocknz/javascript-winwheel@2.8.0/Winwheel.min.js"></script>
 
   <style>
-    body{font-family:sans-serif;text-align:center;margin:40px}
-    #menuSelect{margin-bottom:10px;font-size:1rem}
-     /* fixed, downward-facing triangle */
-/* fixed, DOWN-facing triangle */
-#pointer{
-  position:absolute;
-  /* centre horizontally, glue base to canvas rim, then lift by its own height */
-  top:0;
-  left:50%;
-  transform:translate(-50%,-100%);
+    body{
+      font-family:sans-serif;
+      text-align:center;
+      margin:40px;
+    }
 
-  /* triangle made from CSS borders */
-  width:0; height:0;
-  border-left:18px solid transparent;
-  border-right:18px solid transparent;
-  border-top:28px solid #e74c3c;   /* ⬅️ colour THIS side → arrow points down */
-  z-index:10;                      /* stays above the canvas */
-}
+    /* gap below the title -------------------------------------------------- */
+    #contentWrap{
+      margin-top:30px;          /* adjust this to move the whole wheel block */
+    }
 
+    #menuSelect{
+      margin-bottom:10px;
+      font-size:1rem;
+    }
 
+    /* fixed, DOWN-facing triangle ----------------------------------------- */
+    #pointer{
+      position:absolute;
+      top:0;
+      left:50%;
+      transform:translate(-50%,-100%);
+      width:0; height:0;
+      border-left:18px solid transparent;
+      border-right:18px solid transparent;
+      border-top:28px solid #e74c3c;   /* colour → arrow points down */
+      z-index:10;
+    }
   </style>
 </head>
+
 <body>
   <h2>Spin the Foodieee Wheel</h2>
 
-  <div id="contentWrap">                 <!-- wrapper adds the vertical gap -->
+  <div id="contentWrap">
     <select id="menuSelect">
       <option value="cheap">Cheap</option>
       <option value="expensive">Expensive</option>
@@ -49,66 +57,47 @@
 
     <button onclick="theWheel.startAnimation();">Spin!</button>
     <p id="result"></p>
-  </div>  <!-- /contentWrap -->
-</body>
-   <!-- 🆕 close wrapper -->
+  </div> <!-- /contentWrap -->
 
+  <script>
+    const data = {
+      cheap:     ['banh mi','economic rice','chicken rice','mcd'],
+      expensive: ['ramen','poke bowl','gourmet burger'],
+      premium:   ['omakase','dry-aged steak','lobster roll']
+    };
 
-  <select id="menuSelect">
-    <option value="cheap">Cheap</option>
-    <option value="expensive">Expensive</option>
-    <option value="premium">Premium</option>
-  </select>
+    const segmentColors = [
+      '#ff7675','#74b9ff','#ffeaa7','#55efc4',
+      '#fd79a8','#a29bfe','#fab1a0','#81ecec'
+    ];
 
-<div id="wheelWrap" style="position:relative; display:inline-block;">
-  <div id="pointer"></div>      <!-- arrow -->
-  <canvas id="canvas" width="450" height="450"></canvas>
-</div>
+    let theWheel;
+    makeWheel('cheap');   // draw default wheel
 
-<button onclick="theWheel.startAnimation();">Spin!</button>
-<p id="result"></p>
+    document.getElementById('menuSelect')
+            .addEventListener('change', e => makeWheel(e.target.value));
 
+    function makeWheel(tier){
+      if (theWheel) theWheel.stopAnimation(false);
 
-<script>
-const data = {
-  cheap:     ['banh mi','economic rice','chicken rice','mcd'],
-  expensive: ['ramen','poke bowl','gourmet burger'],
-  premium:   ['omakase','dry-aged steak','lobster roll']
-};
+      theWheel = new Winwheel({
+        canvasId: 'canvas',
+        numSegments: data[tier].length,
+        segments: data[tier].map((label, i) => ({
+          text: label,
+          fillStyle: segmentColors[i % segmentColors.length]
+        })),
+        animation: {
+          type: 'spinToStop',
+          spins: 5,
+          callbackFinished: seg =>
+            document.getElementById('result').textContent =
+              '🎉 You got: ' + seg.text
+        }
+      });
 
-const segmentColors = [
-  '#ff7675','#74b9ff','#ffeaa7','#55efc4',
-  '#fd79a8','#a29bfe','#fab1a0','#81ecec'
-];
-
-let theWheel;
-makeWheel('cheap');                          // A  ← default wheel
-
-document.getElementById('menuSelect')        // B
-        .addEventListener('change', e => makeWheel(e.target.value));
-
-function makeWheel(tier){                    // C  ← parameter restored
-  if (theWheel) theWheel.stopAnimation(false);
-
-  theWheel = new Winwheel({
-    canvasId: 'canvas',
-    numSegments: data[tier].length,
-    segments: data[tier].map((label, i) => ({
-      text: label,
-      fillStyle: segmentColors[i % segmentColors.length]
-    })),
-    animation: {
-      type: 'spinToStop',
-      spins: 5,
-      callbackFinished: seg =>
-        document.getElementById('result').textContent =
-          '🎉 You got: ' + seg.text
+      theWheel.draw();
     }
-  });
-
-  theWheel.draw();
-}
-</script>
-
+  </script>
 </body>
 </html>
