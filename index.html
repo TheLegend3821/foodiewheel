@@ -33,7 +33,20 @@
   </style>
 </head>
 <body>
-  <h2>Spin the Foodieee Wheel</h2>
+  <h2>Spin the Food Wheel</h2>
+
+<div id="contentWrap">          <!-- 🆕 open wrapper -->
+  <select id="menuSelect"> … </select>
+
+  <div id="wheelWrap" style="position:relative; display:inline-block;">
+    <div id="pointer"></div>
+    <canvas id="canvas" width="450" height="450"></canvas>
+  </div><br>
+
+  <button onclick="theWheel.startAnimation();">Spin!</button>
+  <p id="result"></p>
+</div>                           <!-- 🆕 close wrapper -->
+
 
   <select id="menuSelect">
     <option value="cheap">Cheap</option>
