@@ -40,12 +40,12 @@ const segmentColors = [
 ];
 
 let theWheel;
-makeWheel('cheap');             // draw default wheel
+makeWheel('cheap');                          // A  ← default wheel
 
-document.getElementById('menuSelect')
+document.getElementById('menuSelect')        // B
         .addEventListener('change', e => makeWheel(e.target.value));
 
-function makeWheel(tier){
+function makeWheel(tier){                    // C  ← parameter restored
   if (theWheel) theWheel.stopAnimation(false);
 
   theWheel = new Winwheel({
@@ -67,5 +67,6 @@ function makeWheel(tier){
   theWheel.draw();
 }
 </script>
+
 </body>
 </html>
