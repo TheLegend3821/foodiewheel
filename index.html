@@ -16,18 +16,19 @@
 /* fixed, DOWN-facing triangle */
 #pointer{
   position:absolute;
-  /* Glue the base of the triangle to the top edge of the canvas */
-  top:0;                                  /* align with canvas top…           */
+  /* centre horizontally, glue base to canvas rim, then lift by its own height */
+  top:0;
   left:50%;
-  transform:translateX(-50%) translateY(-100%); /* …then lift it one arrow height */
+  transform:translate(-50%,-100%);
 
-  /* Triangle made of borders */
+  /* triangle made from CSS borders */
   width:0; height:0;
   border-left:18px solid transparent;
   border-right:18px solid transparent;
-  border-bottom:28px solid #e74c3c;  /* colour → points DOWN */
-  z-index:10;                        /* always above the canvas */
+  border-top:28px solid #e74c3c;   /* ⬅️ colour THIS side → arrow points down */
+  z-index:10;                      /* stays above the canvas */
 }
+
 
   </style>
 </head>
